@@ -24,13 +24,13 @@ class GraphNode:
 class LinkedList:
     """Here we are going to build out linked list """
     def __init__(self, terrain, path_diff, name):
-        self.head = GraphNode.__init__(self, terrain, path_diff, name)
-        print(self.head)
+
+        GraphNode.__init__(self, terrain, path_diff, name)
+        self.head = GraphNode(terrain, path_diff, name)
 
     def insert(self, terrain, path_diff, name):
         """This method will insert nodes into our linked list """
-        ptr = self.head 
-        print(ptr) # this is a test
+        ptr = self.head
         while ptr.after is not None:
             ptr = ptr.after
 
@@ -40,15 +40,24 @@ class LinkedList:
     def print_list(self):
         """ Prints out the members of the linked list """
         ptr = self.head
-        while ptr.after is not None:
-            print("name "+ptr.name+" "+"terrain "+ptr.terrain)
+        while ptr is not None:
+            print("name " + str(ptr.name) + " " + "terrain " + str(ptr.terrain))
             ptr = ptr.after
+
 class AdjList:
     """Here we are going to build the adjaceny linked list """
     def __init__(self, x_dim, y_dim):
-        self.lst = [LinkedList.__init__(0, 1, i) for i in range(x_dim * y_dim)]
+        prod = x_dim * y_dim 
+        self.prod = prod
+        self.lst = [0] * (prod)
+        for i in range(prod):
+            self.lst[i] = LinkedList(0, 1, i)
 
-R = LinkedList(0, 1, 1)
-R.insert(1, 1.5, 2)
-#R.insert(1, 1.5, 3)
-#R.print_list()
+    def print_adjl(self):
+        """prints out each set of nodes in the graph along with there connections"""
+        for i in range(self.prod):
+            self.lst[i].print_list()
+
+#R = LinkedList(0, 1, 1)
+LIST = AdjList(3, 2)
+LIST.print_adjl()
