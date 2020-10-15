@@ -80,7 +80,7 @@ class LinkedList:
         count = 0
         while ptr is not None:
             count+=1
-            print("name " + str(ptr.name) + " " + "terrain " + str(ptr.terrain))
+            print("name " + str(ptr.name) + " " + "terrain " + str(ptr.terrain) + " " +"edge weight "+str(ptr.path_diff))
             ptr = ptr.after
         print("len of list "+str(count))
 class AdjList:
@@ -97,7 +97,7 @@ class AdjList:
 
     def print_adjl(self):
         """prints out each set of nodes in the graph along with there connections"""
-        for i in range(200):
+        for i in range(self.dim):
             print("List"+str(i)+ "\n")
             self.lst[i].print_list()
             print(" ")
@@ -282,9 +282,9 @@ class AdjList:
             cur_pos = [coor[0], coor[1]]
          #   safety =0
             flag = 0
-            print(" ")
-            path.print_list()
-            print(direction + "\n")
+  #          print(" ")
+   #         path.print_list()
+    #        print(direction + "\n")
 
            # while path_len < 100:
             while self.is_boundary(cur_pos[0],cur_pos[1]):
@@ -351,7 +351,7 @@ class AdjList:
 
                 direction = self.highway_mov(direction)
                 path_len += 20
-                print(path_len)
+ #               print(path_len)
      #       if abort == 5:
      #           break
             if flag and path_len > 100:
@@ -361,17 +361,120 @@ class AdjList:
 
         return arr_paths
 
+    def set_impass(self):
+        """sets 20% nof notes on the board to impassable"""
+        i = 0
+        while i != 3840:
+            spot = rnd.randint(0, 19200)
+            hn_ter = self.lst[spot].head.terrain
+            if hn_ter == 0 or hn_ter == 'a' or hn_ter == 'b' or hn_ter == 's' or hn_ter == 'g':
+                continue
+
+            if self.lst[spot].head.terrain == 1 or self.lst[spot].head.terrain == 2:
+                self.lst[spot].head.set_ter(0)
+                i += 1
+
+    def set_boundary(self):
+        """sets nodes on the boundary of the map to zero"""
+        for j in range(160):
+            pos = self.inv_position(0, j)
+            pos2 = self.inv_position(119, j) 
+
+            t = self.lst[pos].head.terrain
+            t2 = self.lst[pos2].head.terrain
+            if t == 'a' or t == 'b' or t == 'g' or t == 's':
+                continue
+            if t2 == 'a' or t2 == 'b' or t2 == 'g' or t2 == 's':
+                continue
+            self.lst[pos].head.set_ter(0)
+            self.lst[pos2].head.set_ter(0)
+
+        for i in range(120):
+            p1 = self.inv_position(i, 0)
+            p2 = self.inv_position(i, 159)
+
+            tr = self.lst[p1].head.terrain 
+            tr2 = self.lst[p2].head.terrain
+            if tr == 'a' or tr == 'b' or tr == 'g' or tr == 's':
+                continue
+            if tr2 == 'a' or tr2 == 'b' or tr2 == 'g' or tr2 == 's':
+                continue
+            self.lst[p1].head.set_ter(0)
+            self.lst[p2].head.set_ter(0)
+
+
+
+
+
+
+    def set_startgoal(self):
+        """sets start and goal nodes """
+        start = self.inv_position(rnd.randint(0, 20), rnd.randint(0, 20))
+        goal = self.inv_position(rnd.randint(99, 119), rnd.randint(139, 159))
+        self.lst[start].head.set_ter('s')
+        self.lst[goal].head.set_ter('g')
+
     def initialize_h(self):
         """Intialize the random highways"""
         out = self.highway_set()
         for path in out:
             ptr = path.head
             while ptr != None:
-                if self.lst[ptr.name].head.name == 1:
-                    self.set_all(ptr.name, 'a')
+                if self.lst[ptr.name].head.terrain == 1:
+                    self.set_all(ptr.terrain, 'a')
                 else:
-                    self.set_all(ptr.name, 'b')
+                    self.set_all(ptr.terrain, 'b')
                 ptr = ptr.after
+
+
+    def ori_n(self, base, nei):
+        """returns orientation of neighboor node with respect to base node"""
+        if ([base[0]+1, base[1]] == nei or [base[0]-1, base[1]] == nei):
+            return 'v'
+        elif ([base[0], base[1]+1] == nei or [base[0], base[1]+1] == nei):
+            return 'h'
+        else:
+            return 'd'
+
+    def edge_hset(self):
+        """sets edge weights for highways """
+        for indx in range(self.dim):
+            head = self.lst[indx].head
+            nei = head.after
+            if head.terrain == 'a' or head.terrain == 'b':
+                while nei != None:
+                    if nei.terrain == 'a' or nei.terrain == 'b':
+                        nei.set_path(nei.get_path() * 0.25)
+                    nei=nei.after
+
+
+
+    def edge_set(self):
+        """set the correct edge weights that go with based on orientation and terrain """
+        for indx in range(self.dim):
+            head = self.lst[indx].head
+            nei = head.after
+            base = self.position(head.name)
+            while nei != None:
+                coor = self.position(nei.name)
+                o = self.ori_n(base, coor)
+                if(o == 'h' or o == 'v'):
+                    if head.terrain == 1 and nei.terrain == 1:
+                        nei.set_path(1)
+                    elif (head.terrain == 1 and  nei.terrain == 2) or (head.terrain == 2 and nei.terrain == 1):
+                        nei.set_path(1.5)
+                    else:
+                        nei.set_path(2)
+                else:
+                    if head.terrain == 1 and nei.terrain == 1:
+                        nei.set_path(m.sqrt(2))
+                    elif (head.terrain == 1 and  nei.terrain == 2) or (head.terrain == 2 and nei.terrain == 1):
+                        nei.set_path((m.sqrt(2)+m.sqrt(8))/2)
+                    else:
+                        nei.set_path(m.sqrt(8))
+
+                nei = nei.after
+
 
 
 
@@ -379,22 +482,27 @@ class AdjList:
 #R.insert(0,1,1)
 #R.print_list()
 LIST = AdjList(160, 120)
-#LIST.adj_ins(4, 2, 2, 6)
-OUT = LIST.highway_set()
-print(len(OUT))
-OUT[0].print_list()
-OUT[1].print_list()
-OUT[2].print_list()
-OUT[3].print_list()
+LIST.edge_set()
+#LIST.print_adjl()
+#OUT = LIST.highway_set()
+#print(len(OUT))
+#OUT[0].print_list()
+#OUT[1].print_list()
+#OUT[2].print_list()
+#OUT[3].print_list()
 LIST.initialize_h()
-LIST.print_adjl()
+LIST.edge_hset() 
+LIST.set_impass()
+LIST.set_startgoal()
+LIST.set_boundary() 
+#LIST.print_adjl()
 #print(OUT[0].head.after.name)
 #print(OUT[2].head.name)
 #print(OUT[3].head.name)
 #print(LIST.position(159))
 #print(LIST.position(160))
 #LIST.set_subgrid(31, 31)
-#LIST.lst[4991].print_list()
+#LIST.lst[0].print_list()
 #LIST.lst[4992].print_list()
 #LIST.set_subgrid()
 #print(LL.head.after)
