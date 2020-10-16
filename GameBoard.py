@@ -593,14 +593,16 @@ class fileIO:
 
                 #writes the terrain of 's' and 'g' instead of those specific char values
                 if index == self.AdjList.start:
-                    self.file.write(self.AdjList.start_ter)
+                    self.file.write(str(self.AdjList.start_ter))
                 elif index == self.AdjList.goal:
-                    self.file.write(self.AdjList.goal_ter)
+                    self.file.write(str(self.AdjList.goal_ter))
                 else: 
                     self.file.write(str(self.AdjList.lst[index].head.get_ter()))
                 col += 1
             self.file.write('\n')
+            col = 0
             row += 1
+            
         
         self.file.close()
 
