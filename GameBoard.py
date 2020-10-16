@@ -521,7 +521,7 @@ class fileIO:
     def readCoordinates(self):
         """reads in coordinates by line"""
         begin = self.ptr
-        self.file.seek(self.ptr, 0)
+        self.file.seek(begin, 0)
         while True:
             char = self.file.read(1)
             if char == ' ':
@@ -533,7 +533,7 @@ class fileIO:
         self.ptr += 2
 
         begin = self.ptr
-        self.file.seek(begin,0)
+        self.file.seek(begin, 0)
         while True:
             char = self.file.read(1)
             if char == '\n':
@@ -640,5 +640,5 @@ LIST.set_boundary()
 #print(LL.head.after)
 #print(LIST.screen([[-1, 159], [0, 160], [0, 158], [-1, 160], [-1, 158]]))
 x = fileIO(LIST)
-x.writeMap("testMap.txt")
+x.readMap("testMap.txt")
 
