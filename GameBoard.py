@@ -481,16 +481,15 @@ class AdjList:
 
                 nei = nei.after
 class fileIO:
-    def __init__(self, filename, AdjList):
-        self.filename = filename #name of the file to be written/created, or read from
+    def __init__(self, AdjList):
         self.AdjList = AdjList #AdjList that will be parsed to create output file, or created from output file
         self.ptr = 0 #pointer used to parse through the textfile
         self.startindex = 0 #indices used for finding AdjList index of start and goal
         self.goalindex = 0
 
-    def readMap(self):
+    def readMap(self, filename):
         """loads in the textfile and creates an AdjList into AdjList"""
-        self.file = open(self.filename, "r")
+        self.file = open(filename, "r")
 
         #Idk how to initialize an map filled with zeros, so i will edit a randomly generated one
         self.AdjList = AdjList(160,120)
@@ -566,15 +565,18 @@ class fileIO:
             i += 1
 
         
-    def writeMap(self):
+    def writeMap(self, filename):
         """parses through AdjList to create a textfile"""
-        self.file = open(self.filename, "w")
+        self.file = open(filename, "w")
         #writes the coordinates of start and goal to the textfile
-        self.file.write(self.AdjList.start[0] + ' ')
-        self.file.write(self.AdjList.start[1] + '\n')
-        self.file.write(self.AdjList.goal[0] + ' ')
-        self.file.write(self.AdjList.goal[1] + '\n')
-
+        startrow = m.floor(self.AdjList.start / 160)
+        startcol = self.AdjList.start % 160
+        goalrow = m.floor(self.AdjList.goal / 160)
+        goalcol = self.AdjList.goal % 160
+        self.file.write(str(startrow) + ' ')
+        self.file.write(str(startcol) + '\n')
+        self.file.write(str(goalrow) + ' ')
+        self.file.write(str(goalcol) + '\n')
         #writes the HTT center coordinates to the file
         i = 0
         while i < 8:
@@ -595,7 +597,7 @@ class fileIO:
                 elif index == self.AdjList.goal:
                     self.file.write(self.AdjList.goal_ter)
                 else: 
-                    self.file.write(self.AdjList.lst[index].head.terrain)
+                    self.file.write(str(self.AdjList.lst[index].head.get_ter()))
                 col += 1
             self.file.write('\n')
             row += 1
@@ -635,3 +637,6 @@ LIST.set_boundary()
 #LIST.set_subgrid()
 #print(LL.head.after)
 #print(LIST.screen([[-1, 159], [0, 160], [0, 158], [-1, 160], [-1, 158]]))
+x = fileIO(LIST)
+x.writeMap("testMap.txt")
+
