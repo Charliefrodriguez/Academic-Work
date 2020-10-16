@@ -92,8 +92,10 @@ class AdjList:
         for i in range(dim):
             self.lst[i] = LinkedList(1, 1, i)
         self.connect()
+        self.HTTx = [0] * 8
+        self.HTTy = [0] * 8
         for i in range(8):
-            self.set_subgrid()
+            self.set_subgrid(i)
 
     def print_adjl(self):
         """prints out each set of nodes in the graph along with there connections"""
@@ -163,10 +165,12 @@ class AdjList:
                     continue
                 self.adj_ins(i, 1, 1, x)
 
-    def set_subgrid(self):
+    def set_subgrid(self, iteration):
         """sets up the 31x31 subgrid"""
         i = self.random_coor()[0]
         j = self.random_coor()[1]
+        self.HTTx[iteration] = i
+        self.HTTy[iteration] = j
         #print("["+ str(i) +","+ str(j) +"]")
         c_one = 0
         while c_one < 31:
@@ -409,10 +413,12 @@ class AdjList:
 
     def set_startgoal(self):
         """sets start and goal nodes """
-        start = self.inv_position(rnd.randint(0, 20), rnd.randint(0, 20))
-        goal = self.inv_position(rnd.randint(99, 119), rnd.randint(139, 159))
-        self.lst[start].head.set_ter('s')
-        self.lst[goal].head.set_ter('g')
+        self.start = self.inv_position(rnd.randint(0, 20), rnd.randint(0, 20))
+        self.goal = self.inv_position(rnd.randint(99, 119), rnd.randint(139, 159))
+        self.start_ter = self.lst[self.start].head.terrain
+        self.goal_ter = self.lst[self.goal].head.terrain
+        self.lst[self.start].head.set_ter('s')
+        self.lst[self.goal].head.set_ter('g')
 
     def initialize_h(self):
         """Intialize the random highways"""
@@ -474,6 +480,128 @@ class AdjList:
                         nei.set_path(m.sqrt(8))
 
                 nei = nei.after
+class fileIO:
+    def __init__(self, filename, AdjList):
+        self.filename = filename #name of the file to be written/created, or read from
+        self.AdjList = AdjList #AdjList that will be parsed to create output file, or created from output file
+        self.ptr = 0 #pointer used to parse through the textfile
+        self.startindex = 0 #indices used for finding AdjList index of start and goal
+        self.goalindex = 0
+
+    def readMap(self):
+        """loads in the textfile and creates an AdjList into AdjList"""
+        self.file = open(self.filename, "r")
+
+        #Idk how to initialize an map filled with zeros, so i will edit a randomly generated one
+        self.AdjList = AdjList(160,120)
+
+        #gets start and goal from first two lines
+        start = self.readCoordinates()
+        goal = self.readCoordinates()
+        self.startindex = self.AdjList.inv_position(start[0], start[1])
+        self.goalindex = self.AdjList.inv_position(goal[0], goal[1])
+        
+        #gets HTT centers
+        #we don't need them in map generation, only as stored values
+        for i in range(8):
+            HTTcenter = self.readCoordinates()
+            self.AdjList.HTTx[i] = HTTcenter[0]
+            self.AdjList.HTTy[i] = HTTcenter[1]
+        self.ptr = 0
+
+        #parses through Adjlist to change AdjList terrain
+        self.readCharMap()
+
+        #changes map values for start and goal
+        #done last to avoid 's' and 'g' in textfile map
+        self.AdjList.lst[self.startindex].head.set_ter('s')
+        self.AdjList.lst[self.goalindex].head.set_ter('g')
+
+        self.file.close()
+
+    def readCoordinates(self):
+        """reads in coordinates by line"""
+        begin = self.ptr
+        self.file.seek(self.ptr, 0)
+        while True:
+            char = self.file.read(1)
+            if char == ' ':
+                break
+            self.ptr += 1
+        self.file.seek(begin,0)
+        rownum = int(self.file.read(self.ptr-begin))
+
+        self.ptr += 2
+
+        begin = self.ptr
+        self.file.seek(begin,0)
+        while True:
+            char = self.file.read(1)
+            if char == '\n':
+                break
+            self.ptr += 1
+        self.file.seek(begin,0)
+        colnum = int(self.file.read(self.ptr-begin))
+
+        self.ptr += 2
+        
+        return [rownum, colnum]
+
+    def readCharMap(self):
+        """reads in 120 x 160 textfile map"""
+        
+        i = 0
+        while i < 19200:
+            char = self.file.read(1)
+            if char == '\n':
+                continue
+
+            #These if statements are used to preserve terrain values of start and goal before overwritten with 's' and 'g'
+            if i == self.startindex:
+                self.AdjList.start_ter = char
+            if i == self.goalindex:
+                self.AdjList.goal_ter = char
+
+            self.AdjList.lst[i].head.terrain = char
+            i += 1
+
+        
+    def writeMap(self):
+        """parses through AdjList to create a textfile"""
+        self.file = open(self.filename, "w")
+        #writes the coordinates of start and goal to the textfile
+        self.file.write(self.AdjList.start[0] + ' ')
+        self.file.write(self.AdjList.start[1] + '\n')
+        self.file.write(self.AdjList.goal[0] + ' ')
+        self.file.write(self.AdjList.goal[1] + '\n')
+
+        #writes the HTT center coordinates to the file
+        i = 0
+        while i < 8:
+            self.file.write(str(self.AdjList.HTTx[i]) + ' ')
+            self.file.write(str(self.AdjList.HTTy[i]) + '\n')
+            i += 1
+        
+        #writes the map in char form to the textfile
+        row = 0
+        col = 0
+        while row < 120:
+            while col < 160:
+                index = self.AdjList.inv_position(row, col)
+
+                #writes the terrain of 's' and 'g' instead of those specific char values
+                if index == self.AdjList.start:
+                    self.file.write(self.AdjList.start_ter)
+                elif index == self.AdjList.goal:
+                    self.file.write(self.AdjList.goal_ter)
+                else: 
+                    self.file.write(self.AdjList.lst[index].head.terrain)
+                col += 1
+            self.file.write('\n')
+            row += 1
+        
+        self.file.close()
+
 
 
 
