@@ -484,8 +484,6 @@ class fileIO:
     def __init__(self, AdjList):
         self.AdjList = AdjList #AdjList that will be parsed to create output file, or created from output file
         self.ptr = 0 #pointer used to parse through the textfile
-        self.startindex = 0 #indices used for finding AdjList index of start and goal
-        self.goalindex = 0
 
     def readMap(self, filename):
         """loads in the textfile and creates an AdjList into AdjList"""
@@ -497,8 +495,8 @@ class fileIO:
         #gets start and goal from first two lines
         start = self.readCoordinates()
         goal = self.readCoordinates()
-        self.startindex = self.AdjList.inv_position(start[0], start[1])
-        self.goalindex = self.AdjList.inv_position(goal[0], goal[1])
+        self.AdjList.start = self.AdjList.inv_position(start[0], start[1])
+        self.AdjList.goal = self.AdjList.inv_position(goal[0], goal[1])
         
         #gets HTT centers
         #we don't need them in map generation, only as stored values
@@ -513,8 +511,8 @@ class fileIO:
 
         #changes map values for start and goal
         #done last to avoid 's' and 'g' in textfile map
-        self.AdjList.lst[self.startindex].head.set_ter('s')
-        self.AdjList.lst[self.goalindex].head.set_ter('g')
+        self.AdjList.lst[self.AdjList.start].head.set_ter('s')
+        self.AdjList.lst[self.AdjList.goal].head.set_ter('g')
 
         self.file.close()
 
@@ -528,9 +526,9 @@ class fileIO:
                 break
             self.ptr += 1
         self.file.seek(begin,0)
-        rownum = int(self.file.read(self.ptr-begin))
+        rownum = int(self.file.read(self.ptr - begin))
 
-        self.ptr += 2
+        self.ptr += 1
 
         begin = self.ptr
         self.file.seek(begin, 0)
@@ -540,9 +538,9 @@ class fileIO:
                 break
             self.ptr += 1
         self.file.seek(begin,0)
-        colnum = int(self.file.read(self.ptr-begin))
+        colnum = int(self.file.read(self.ptr - begin))
 
-        self.ptr += 2
+        self.ptr += 1
         
         return [rownum, colnum]
 
@@ -556,9 +554,9 @@ class fileIO:
                 continue
 
             #These if statements are used to preserve terrain values of start and goal before overwritten with 's' and 'g'
-            if i == self.startindex:
+            if i == self.AdjList.start:
                 self.AdjList.start_ter = char
-            if i == self.goalindex:
+            if i == self.AdjList.goal:
                 self.AdjList.goal_ter = char
 
             self.AdjList.lst[i].head.terrain = char
@@ -602,7 +600,6 @@ class fileIO:
             self.file.write('\n')
             col = 0
             row += 1
-            
         
         self.file.close()
 
@@ -640,5 +637,7 @@ LIST.set_boundary()
 #print(LL.head.after)
 #print(LIST.screen([[-1, 159], [0, 160], [0, 158], [-1, 160], [-1, 158]]))
 x = fileIO(LIST)
+x.writeMap("testMap.txt")
 x.readMap("testMap.txt")
-
+y = fileIO(x.AdjList)
+y.writeMap("testMap2.txt")
