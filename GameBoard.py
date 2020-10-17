@@ -96,6 +96,13 @@ class AdjList:
         self.HTTy = [0] * 8
         for i in range(8):
             self.set_subgrid(i)
+        self.edge_set()
+        self.initialize_h()
+        self.edge_hset()
+        self.set_impass()
+        self.set_startgoal()
+        self.set_boundary()
+
 
     def print_adjl(self):
         """prints out each set of nodes in the graph along with there connections"""
@@ -126,15 +133,6 @@ class AdjList:
 
     def position(self, value):
         """computes the index of value in the matrix interpreation of the array"""
-        #flag = False
-        #for i in range(self.dim):
-        #    if (160 *i <= value and value <= 160*i + 159):
-        #        indx = i
-        #        flag = True
-        #        break
-       # if flag is False:
-       #     return [-1, -1]
-       # else:
         indx = m.floor(value/160)
         j = -indx*160 +  value
         if j >= 0:
@@ -369,7 +367,7 @@ class AdjList:
         """sets 20% nof notes on the board to impassable"""
         i = 0
         while i != 3840:
-            spot = rnd.randint(0, 19200)
+            spot = rnd.randint(0,19199) 
             hn_ter = self.lst[spot].head.terrain
             if hn_ter == 0 or hn_ter == 'a' or hn_ter == 'b' or hn_ter == 's' or hn_ter == 'g':
                 continue
@@ -611,29 +609,17 @@ class fileIO:
 #R.insert(0,1,1)
 #R.print_list()
 LIST = AdjList(160, 120)
-LIST.edge_set()
-#LIST.print_adjl()
-#OUT = LIST.highway_set()
-#print(len(OUT))
-#OUT[0].print_list()
-#OUT[1].print_list()
-#OUT[2].print_list()
-#OUT[3].print_list()
-LIST.initialize_h()
-LIST.edge_hset() 
-LIST.set_impass()
-LIST.set_startgoal()
-LIST.set_boundary() 
-#LIST.print_adjl()
-#print(OUT[0].head.after.name)
-#print(OUT[2].head.name)
-#print(OUT[3].head.name)
-#print(LIST.position(159))
-#print(LIST.position(160))
-#LIST.set_subgrid(31, 31)
-#LIST.lst[0].print_list()
-#LIST.lst[4992].print_list()
-#LIST.set_subgrid()
+
+LIST.lst[0].print_list()
+
+#LIST.edge_set()
+
+#LIST.initialize_h()
+#LIST.edge_hset() 
+#LIST.set_impass()
+#LIST.set_startgoal()
+#LIST.set_boundary() 
+
 #print(LL.head.after)
 #print(LIST.screen([[-1, 159], [0, 160], [0, 158], [-1, 160], [-1, 158]]))
 x = fileIO(LIST)
