@@ -11,10 +11,15 @@ class GraphNode:
         self.terrain = terrain #terrain difficulty
         self.path_diff = path_diff # edge weigh between two nodes
         self.name = name #this is going to be represent by the index in which the node is created
+<<<<<<< HEAD
         self.after = None
         self.h = 0
         self.f = 0
         self.g = 0
+=======
+        self.after = None 
+        self.dist  = 0
+>>>>>>> cf156f5517482d2adc7a159cbdb2344883686a88
 
     def get_ter(self):
         """This is a getter function for terrain"""

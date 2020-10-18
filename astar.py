@@ -41,6 +41,9 @@ def astarAlgo(start_node, end_node, List):
          neighboor.g = current_node.g + 1
          neighboor.h = ((List.position(neighboor.name)[0] - List.position(end_node.name)[0]) ** 2) + ((List.position(neighboor.name)[1] - List.position(end_node.name)[1]) ** 2)
          neighboor.f = neighboor.g + neighboor.h
+         neighboor.g = current_node.g + 1
+         neighboor.h = ((List.position(neighboor.name)[0] - List.position(end_node.name)[0]) ** 2) + ((List.position(neighboor.name)[1] - List.position(end_node.name)[1]) ** 2)
+         neighboor.f = neighboor.g + neighboor.h
          # Neighbor is already in the open list
          for open_node in open_list:
                if neighboor == open_node and neighboor.g > open_node.g:
