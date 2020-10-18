@@ -56,12 +56,6 @@ class spot:
             self.neighbors.append(grid[self.i][j - 1])
 
 LIST = GameBoard.AdjList(160, 120)
-LIST.edge_set()
-LIST.initialize_h()
-LIST.edge_hset() 
-LIST.set_impass()
-LIST.set_startgoal()
-LIST.set_boundary() 
 x = GameBoard.fileIO(LIST)
 x.writeMap("testMap.txt")
 x.readMap("testMap.txt")
@@ -109,10 +103,6 @@ for i in range(cols):
         if LIST.lst[LIST.inv_position(j, i)].head.terrain == 'b':
             grid[i][j].show((0, 0, 150), 0)
             grid[i][j].value = 2
-        if LIST.lst[LIST.inv_position(j, i)].head.terrain == 's':
-            grid[i][j].show((255, 8, 127), 0)
-        if LIST.lst[LIST.inv_position(j, i)].head.terrain == 'g':
-            grid[i][j].show((255, 8, 127), 0)   
 
 
 def onsubmit():
