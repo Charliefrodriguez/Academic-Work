@@ -3,7 +3,7 @@ import GameBoard
 
 #List = GameBoard.AdjList(160, 120)
 
-def astarAlgo(start_node, end_node, List):
+def astarAlgo(start_node, end_node, List, heuristic):
    open_list = []
    closed_list = []
    open_list.append(start_node)  
@@ -55,10 +55,10 @@ def astarAlgo(start_node, end_node, List):
                   continue
          # Create the f, g, and h values
          neighboor.g = current_node.g + 1
-         neighboor.h = ((List.position(neighboor.name)[0] - List.position(end_node.name)[0]) ** 2) + ((List.position(neighboor.name)[1] - List.position(end_node.name)[1]) ** 2)
-         neighboor.f = neighboor.g + neighboor.h
-         neighboor.g = current_node.g + 1
-         neighboor.h = ((List.position(neighboor.name)[0] - List.position(end_node.name)[0]) ** 2) + ((List.position(neighboor.name)[1] - List.position(end_node.name)[1]) ** 2)
+         if heuristic == 'dijkstra':
+            neighboor.h = 0
+         else:
+            neighboor.h = ((List.position(neighboor.name)[0] - List.position(end_node.name)[0]) ** 2) + ((List.position(neighboor.name)[1] - List.position(end_node.name)[1]) ** 2)
          neighboor.f = neighboor.g + neighboor.h
          # Neighbor is already in the open list
          for open_node in open_list:
@@ -67,7 +67,7 @@ def astarAlgo(start_node, end_node, List):
          # Add the neighboor to the open list
          open_list.append(neighboor)
 
-def astarAlgo(start_node, end_node, List):
+def astarWeighted(start_node, end_node, List, heuristic):
    open_list = []
    closed_list = []
    open_list.append(start_node)  
@@ -119,8 +119,12 @@ def astarAlgo(start_node, end_node, List):
                   continue
          # Create the f, g, and h values
          neighboor.g = current_node.g + 1
-         neighboor.h = ((List.position(neighboor.name)[0] - List.position(end_node.name)[0]) ** 2) + ((List.position(neighboor.name)[1] - List.position(end_node.name)[1]) ** 2)
-         neighboor.f = neighboor.g + (neighboor.h * neighboor.path_diff)
+         if heuristic == 'dijkstra':
+            neighboor.h = 0
+            neighboor.f = neighboor.g + neighboor.path_diff
+         else:
+            neighboor.h = ((List.position(neighboor.name)[0] - List.position(end_node.name)[0]) ** 2) + ((List.position(neighboor.name)[1] - List.position(end_node.name)[1]) ** 2)
+            neighboor.f = neighboor.g + (neighboor.h * neighboor.path_diff)
          # Neighbor is already in the open list
          for open_node in open_list:
                if neighboor == open_node and neighboor.g > open_node.g:
@@ -136,6 +140,6 @@ if __name__ == "__main__":
 #print("Here is the start value "+ str(value[0]) + " " + "Here is the goal value " + str(value[1]))
 #print("This is the node value" + str( List.lst[   value[0] ].head.name))
 
-#out  = astarAlgo(List.lst[ 0 ].head,  List.lst[ 483 ].head , List)
+#out  = astarAlgo(List.lst[ 0 ].head,  List.lst[ 483 ].head , List, 'seq')
 #print("This is the path\n")
 #print(out)
