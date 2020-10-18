@@ -56,12 +56,6 @@ class spot:
             self.neighbors.append(grid[self.i][j - 1])
 
 LIST = GameBoard.AdjList(160, 120)
-LIST.edge_set()
-LIST.initialize_h()
-LIST.edge_hset() 
-LIST.set_impass()
-LIST.set_startgoal()
-LIST.set_boundary() 
 x = GameBoard.fileIO(LIST)
 x.writeMap("testMap.txt")
 x.readMap("testMap.txt")
