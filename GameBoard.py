@@ -430,7 +430,6 @@ class AdjList:
         """Intialize the random highways"""
         out = self.highway_set()
         for path in out:
-            path.print_list() 
 
             ptr = path.head
             while ptr != None:
@@ -638,7 +637,7 @@ LIST = AdjList(160, 120)
 #LIST.set_startgoal()
 #LIST.set_boundary() 
 
-#LIST.print_adjl()
+LIST.print_adjl()
 
 #print(LL.head.after)
 #print(LIST.screen([[-1, 159], [0, 160], [0, 158], [-1, 160], [-1, 158]]))
