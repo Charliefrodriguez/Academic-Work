@@ -101,6 +101,8 @@ class AdjList:
         self.HTTy = [0] * 8
         for i in range(8):
             self.set_subgrid(i)
+        
+
         self.edge_set()
         self.initialize_h()
         self.edge_hset()
@@ -430,12 +432,13 @@ class AdjList:
         """Intialize the random highways"""
         out = self.highway_set()
         for path in out:
+
             ptr = path.head
             while ptr != None:
                 if self.lst[ptr.name].head.terrain == 1:
-                    self.set_all(ptr.terrain, 'a')
+                    self.set_all(ptr.name, 'a')
                 else:
-                    self.set_all(ptr.terrain, 'b')
+                    self.set_all(ptr.name, 'b')
                 ptr = ptr.after
 
 
@@ -620,17 +623,37 @@ LIST = AdjList(160, 120)
 
 #LIST.lst[0].print_list()
 
+<<<<<<< HEAD
 LIST.edge_set()
 LIST.initialize_h()
 LIST.edge_hset() 
 LIST.set_impass()
 LIST.set_startgoal()
 LIST.set_boundary() 
+=======
+#LIST.edge_set()
+
+
+#LIST.edge_hset() 
+#LIST.set_impass()
+#LIST.set_startgoal()
+#LIST.set_boundary() 
+
+
+
+#LIST.initialize_h()
+#LIST.edge_hset() 
+#LIST.set_impass()
+#LIST.set_startgoal()
+#LIST.set_boundary() 
+
+LIST.print_adjl()
+>>>>>>> e0243913536a97801a4ecbdeb8ed144c4a5fdc51
 
 #print(LL.head.after)
 #print(LIST.screen([[-1, 159], [0, 160], [0, 158], [-1, 160], [-1, 158]]))
-x = fileIO(LIST)
-x.writeMap("testMap.txt")
-x.readMap("testMap.txt")
-y = fileIO(x.AdjList)
-y.writeMap("testMap2.txt")
+#x = fileIO(LIST)
+#x.writeMap("testMap.txt")
+#x.readMap("testMap.txt")
+#y = fileIO(x.AdjList)
+#y.writeMap("testMap2.txt")
