@@ -209,9 +209,9 @@ class AdjList:
     def highway_mov(self, prev_dir):
         """This will return the direction which the highway will go in """
 
-        set_dir = ['s', 'p']
-        distro = [.60, .20]
-        direction = rnd.choices(set_dir, distro)
+        set_dir = ['s', 'p1', 'p2']
+        distro = [.60, .20, .20]
+        direction = rnd.choices(set_dir, weights = distro)
         if direction == 's':
             if prev_dir == 'd':
                 return 'd'
@@ -221,21 +221,25 @@ class AdjList:
                 return 'l'
             else:
                 return 'r'
-        else:
+        elif direction == 'p1':
             if prev_dir == 'd':
-            #    pos_p = ['r','l'] 
-             #   distro_p = [.20, .20]
-              #  return rnd.choices(pos_p, distro_p) 
                 return 'r'
             elif prev_dir == 'u':
-                return 'l'
-            elif  prev_dir == 'l':
-               # pos_p = ['u', 'd'] 
-               # distro_p = [.20, .20] 
-               # return rnd.choices(pos_p,distro_p) 
+                return 'r'
+            elif prev_dir == 'l':
                 return 'u'
             else:
+                return 'u'
+        else:
+            if prev_dir == 'd':
+                return 'l'
+            elif prev_dir == 'u':
+                return 'r'
+            elif prev_dir == 'l':
                 return 'd'
+            else:
+                return 'd'
+
 
 
 
