@@ -19,7 +19,7 @@ except:
     from tkinter import messagebox
     import os
 
-screen = pygame.display.set_mode((800, 800))
+screen = pygame.display.set_mode((1600, 1600))
 
 class spot:
     def __init__(self, x, y):
@@ -56,7 +56,8 @@ class spot:
             self.neighbors.append(grid[self.i][j - 1])
 
 LIST = GameBoard.AdjList(160, 120)
-LIST.set_startgoal()
+x = GameBoard.fileIO(LIST)
+x.readMap("testMap.txt")
 
 cols = 160
 grid = [0 for i in range(cols)]
@@ -67,8 +68,8 @@ red = (255, 0, 0)
 green = (0, 255, 0)
 blue = (0, 0, 255)
 grey = (220, 220, 220)
-w = 800 / cols
-h = 800 / row
+w = 1600 / cols
+h = 1600 / row
 cameFrom = []
 
 # create 2d array
