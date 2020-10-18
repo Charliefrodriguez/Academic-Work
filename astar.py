@@ -26,7 +26,7 @@ def astarAlgo(start_node, end_node, List):
       # Found the goal
       if current_node == end_node:
          #print(path) 
-         return path;
+         return path
        #  path = []
        #  current = current_node
        #  while current is not None:
