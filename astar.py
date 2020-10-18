@@ -1,6 +1,7 @@
 import queue
+import GameBoard.py 
 
-def astarAlgo(startNode, endNode):
+def astarAlgo(startNode, endNode, List):
    open_list = []
    closed_list = []
    open_list.append(startNode)
@@ -24,9 +25,12 @@ def astarAlgo(startNode, endNode):
                current = current.parent
          return path[::-1] # Return reversed path
       #Generate neighbors
-      neighbors = []
-      for i in range(8):
-         if current_node.name - 
+      neighboors = []
+      ptr  = List.lst[current.name].head
+      while ptr != None:
+         if ptr.terrain != 0 and ptr not in closed_list: 
+                neighboors.append(ptr)
+      ptr = ptr.after           
       # Loop through neighbors
       for neighbor in neighbors:
          # Neighbor is on the closed list
@@ -35,7 +39,7 @@ def astarAlgo(startNode, endNode):
                   continue
          # Create the f, g, and h values
          neighbor.g = current_node.g + 1
-         neighbor.h = ((neighbor.position[0] - end_node.position[0]) ** 2) + ((neighbor.position[1] - end_node.position[1]) ** 2)
+         neighbor.h = ((List.position(neighboor.name)[0] - List.position(end_node.name)[0]) ** 2) + ((List.position(neighboor.name)[1] - List.position(end_node.name)[1]) ** 2)
          neighbor.f = neighbor.g + neighbor.h
          # Neighbor is already in the open list
          for open_node in open_list:
