@@ -109,10 +109,6 @@ for i in range(cols):
         if LIST.lst[LIST.inv_position(j, i)].head.terrain == 'b':
             grid[i][j].show((0, 0, 150), 0)
             grid[i][j].value = 2
-        if LIST.lst[LIST.inv_position(j, i)].head.terrain == 's':
-            grid[i][j].show((255, 8, 127), 0)
-        if LIST.lst[LIST.inv_position(j, i)].head.terrain == 'g':
-            grid[i][j].show((255, 8, 127), 0)   
 
 
 def onsubmit():

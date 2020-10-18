@@ -267,6 +267,7 @@ class AdjList:
     def highway_set(self):
         """This function will set up the 4 highways on the map """
         arr_paths = [None]*0
+
        # abort =0
         while len(arr_paths) < 4:
         #    abort += 1
@@ -313,6 +314,7 @@ class AdjList:
                     if flag:
                         break
                     cur_pos = [cur_pos[0]+19, cur_pos[1]]
+
 
                 elif direction == 'u':
                     for i in range(20):
@@ -619,10 +621,6 @@ LIST = AdjList(160, 120)
 #LIST.lst[0].print_list()
 
 LIST.edge_set()
-
-
-
-
 LIST.initialize_h()
 LIST.edge_hset() 
 LIST.set_impass()
