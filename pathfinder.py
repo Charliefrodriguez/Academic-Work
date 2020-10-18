@@ -91,28 +91,21 @@ for i in range(cols):
         if LIST.lst[LIST.inv_position(j, i)].head.terrain == '1':
             grid[i][j].show(green, 1)
         if LIST.lst[LIST.inv_position(j, i)].head.terrain == '2':
-            grid[i][j].show((200,0,0), 1)
+            grid[i][j].show((0, 200, 0), 1)
+            grid[i][j].value = 2
         if LIST.lst[LIST.inv_position(j, i)].head.terrain == '0':
-            grid[i][j].show((0, 0, 0), 1)    
+            grid[i][j].show((0, 0, 0), 1)
+            grid[i][j].obs = True    
         if LIST.lst[LIST.inv_position(j, i)].head.terrain == 'a':
-            grid[i][j].show((blue, 0, 0), 1)    
+            grid[i][j].show(blue, 1)    
         if LIST.lst[LIST.inv_position(j, i)].head.terrain == 'b':
-            grid[i][j].show((200, 0, 0), 1)
+            grid[i][j].show((0, 0, 200), 1)
+            grid[i][j].value = 2
         if LIST.lst[LIST.inv_position(j, i)].head.terrain == 's':
             grid[i][j].show((255, 8, 127), 1)
         if LIST.lst[LIST.inv_position(j, i)].head.terrain == 'g':
             grid[i][j].show((255, 8, 127), 1)   
 
-
-for i in range(0,row):
-    grid[0][i].show(grey, 0)
-    grid[0][i].obs = True
-    grid[cols-1][i].obs = True
-    grid[cols-1][i].show(grey, 0)
-    grid[i][row-1].show(grey, 0)
-    grid[i][0].show(grey, 0)
-    grid[i][0].obs = True
-    grid[i][row-1].obs = True
 
 def onsubmit():
     global start
