@@ -55,7 +55,7 @@ class spot:
         if j > 0 and grid[self.i][j - 1].obs == False:
             self.neighbors.append(grid[self.i][j - 1])
 
-LIST = AdjList(160, 120)
+LIST = GameBoard.AdjList(160, 120)
 LIST.set_startgoal()
 
 cols = 160
@@ -88,6 +88,21 @@ end = grid[LIST.goal % 160][math.floor(LIST.goal / 160)]
 for i in range(cols):
     for j in range(row):
         grid[i][j].show((255, 255, 255), 1)
+        if LIST.lst[LIST.inv_position(j, i)].head.terrain == '1':
+            grid[i][j].show(green, 1)
+        if LIST.lst[LIST.inv_position(j, i)].head.terrain == '2':
+            grid[i][j].show((200,0,0), 1)
+        if LIST.lst[LIST.inv_position(j, i)].head.terrain == '0':
+            grid[i][j].show((0, 0, 0), 1)    
+        if LIST.lst[LIST.inv_position(j, i)].head.terrain == 'a':
+            grid[i][j].show((blue, 0, 0), 1)    
+        if LIST.lst[LIST.inv_position(j, i)].head.terrain == 'b':
+            grid[i][j].show((200, 0, 0), 1)
+        if LIST.lst[LIST.inv_position(j, i)].head.terrain == 's':
+            grid[i][j].show((255, 8, 127), 1)
+        if LIST.lst[LIST.inv_position(j, i)].head.terrain == 'g':
+            grid[i][j].show((255, 8, 127), 1)   
+
 
 for i in range(0,row):
     grid[0][i].show(grey, 0)
