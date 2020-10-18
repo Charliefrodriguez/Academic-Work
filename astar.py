@@ -1,7 +1,7 @@
 import queue
 import GameBoard
 
-List = GameBoard.AdjList(160, 120)
+#List = GameBoard.AdjList(160, 120)
 
 def astarAlgo(start_node, end_node, List):
    open_list = []
@@ -75,6 +75,6 @@ if __name__ == "__main__":
 #print("Here is the start value "+ str(value[0]) + " " + "Here is the goal value " + str(value[1]))
 #print("This is the node value" + str( List.lst[   value[0] ].head.name))
 
-out  = astarAlgo(List.lst[ 0 ].head,  List.lst[ 483 ].head , List)
-print("This is the path\n")
-print(out)
+#out  = astarAlgo(List.lst[ 0 ].head,  List.lst[ 483 ].head , List)
+#print("This is the path\n")
+#print(out)

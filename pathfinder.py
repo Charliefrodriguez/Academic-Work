@@ -1,5 +1,7 @@
 try:
     import pygame
+    import GameBoard
+    import astar
     import sys
     import math
     from tkinter import *
@@ -17,7 +19,7 @@ except:
     from tkinter import messagebox
     import os
 
-screen = pygame.display.set_mode((800, 800))
+screen = pygame.display.set_mode((1600, 1000))
 
 class spot:
     def __init__(self, x, y):
@@ -53,18 +55,29 @@ class spot:
         if j > 0 and grid[self.i][j - 1].obs == False:
             self.neighbors.append(grid[self.i][j - 1])
 
+LIST = GameBoard.AdjList(160, 120)
+LIST.edge_set()
+LIST.initialize_h()
+LIST.edge_hset() 
+LIST.set_impass()
+LIST.set_startgoal()
+LIST.set_boundary() 
+x = GameBoard.fileIO(LIST)
+x.writeMap("testMap.txt")
+x.readMap("testMap.txt")
+LIST = x.AdjList
 
-cols = 50
+cols = 160
 grid = [0 for i in range(cols)]
-row = 50
+row = 120
 openSet = []
 closedSet = []
 red = (255, 0, 0)
 green = (0, 255, 0)
 blue = (0, 0, 255)
 grey = (220, 220, 220)
-w = 800 / cols
-h = 800 / row
+w = 1600 / cols
+h = 1000 / row
 cameFrom = []
 
 # create 2d array
@@ -78,22 +91,29 @@ for i in range(cols):
 
 
 # Set start and end node
-start = grid[12][5]
-end = grid[3][6]
+start = grid[LIST.start % 160][math.floor(LIST.start / 160)]
+end = grid[LIST.goal % 160][math.floor(LIST.goal / 160)]
 # SHOW RECT
 for i in range(cols):
     for j in range(row):
-        grid[i][j].show((255, 255, 255), 1)
+        if LIST.lst[LIST.inv_position(j, i)].head.terrain == '1':
+            grid[i][j].show(green, 0)
+        if LIST.lst[LIST.inv_position(j, i)].head.terrain == '2':
+            grid[i][j].show((0, 150, 0), 0)
+            grid[i][j].value = 2
+        if LIST.lst[LIST.inv_position(j, i)].head.terrain == '0':
+            grid[i][j].show((0, 0, 0), 0)
+            grid[i][j].obs = True    
+        if LIST.lst[LIST.inv_position(j, i)].head.terrain == 'a':
+            grid[i][j].show(blue, 0)    
+        if LIST.lst[LIST.inv_position(j, i)].head.terrain == 'b':
+            grid[i][j].show((0, 0, 150), 0)
+            grid[i][j].value = 2
+        if LIST.lst[LIST.inv_position(j, i)].head.terrain == 's':
+            grid[i][j].show((255, 8, 127), 0)
+        if LIST.lst[LIST.inv_position(j, i)].head.terrain == 'g':
+            grid[i][j].show((255, 8, 127), 0)   
 
-for i in range(0,row):
-    grid[0][i].show(grey, 0)
-    grid[0][i].obs = True
-    grid[cols-1][i].obs = True
-    grid[cols-1][i].show(grey, 0)
-    grid[i][row-1].show(grey, 0)
-    grid[i][0].show(grey, 0)
-    grid[i][0].obs = True
-    grid[i][row-1].obs = True
 
 def onsubmit():
     global start

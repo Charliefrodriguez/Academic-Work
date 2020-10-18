@@ -624,14 +624,21 @@ LIST = AdjList(160, 120)
 
 #LIST.edge_set()
 
-#LIST.initialize_h()
 
 #LIST.edge_hset() 
 #LIST.set_impass()
 #LIST.set_startgoal()
 #LIST.set_boundary() 
 
-LIST.print_adjl()
+
+
+#LIST.initialize_h()
+#LIST.edge_hset() 
+#LIST.set_impass()
+#LIST.set_startgoal()
+#LIST.set_boundary() 
+
+#LIST.print_adjl()
 
 #print(LL.head.after)
 #print(LIST.screen([[-1, 159], [0, 160], [0, 158], [-1, 160], [-1, 158]]))
