@@ -199,11 +199,11 @@ class AdjList:
 
     def highway_start(self):
         """This function will select the start point of the highway"""
-        i = rnd.randint(0, 120)
-        if i == 0 or i == 120:
-            j = rnd.randint(1, 118) #we don't want the map corners
+        i = rnd.randint(0, 119)
+        if i == 0 or i == 119:
+            j = rnd.randint(1, 159) #we don't want the map corners
         else:
-            j = rnd.choice([0, 119])
+            j = rnd.choice([0, 159])
         return [i, j]
 
     def highway_mov(self, prev_dir):
@@ -223,10 +223,16 @@ class AdjList:
                 return 'r'
         else:
             if prev_dir == 'd':
+            #    pos_p = ['r','l'] 
+             #   distro_p = [.20, .20]
+              #  return rnd.choices(pos_p, distro_p) 
                 return 'r'
             elif prev_dir == 'u':
                 return 'l'
-            elif prev_dir == 'l':
+            elif  prev_dir == 'l':
+               # pos_p = ['u', 'd'] 
+               # distro_p = [.20, .20] 
+               # return rnd.choices(pos_p,distro_p) 
                 return 'u'
             else:
                 return 'd'
