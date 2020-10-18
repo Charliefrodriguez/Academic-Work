@@ -614,9 +614,9 @@ class fileIO:
 #R = LinkedList(0, 1, 1)
 #R.insert(0,1,1)
 #R.print_list()
-LIST = AdjList(160, 120)
+#LIST = AdjList(160, 120)
 
-LIST.lst[0].print_list()
+#LIST.lst[0].print_list()
 
 #LIST.edge_set()
 
@@ -628,8 +628,8 @@ LIST.lst[0].print_list()
 
 #print(LL.head.after)
 #print(LIST.screen([[-1, 159], [0, 160], [0, 158], [-1, 160], [-1, 158]]))
-x = fileIO(LIST)
-x.writeMap("testMap.txt")
-x.readMap("testMap.txt")
-y = fileIO(x.AdjList)
-y.writeMap("testMap2.txt")
+#x = fileIO(LIST)
+#x.writeMap("testMap.txt")
+#x.readMap("testMap.txt")
+#y = fileIO(x.AdjList)
+#y.writeMap("testMap2.txt")

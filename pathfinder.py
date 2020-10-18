@@ -1,5 +1,7 @@
 try:
     import pygame
+    import GameBoard
+    import astar
     import sys
     import math
     from tkinter import *
@@ -53,10 +55,12 @@ class spot:
         if j > 0 and grid[self.i][j - 1].obs == False:
             self.neighbors.append(grid[self.i][j - 1])
 
+LIST = AdjList(160, 120)
+LIST.set_startgoal()
 
-cols = 50
+cols = 160
 grid = [0 for i in range(cols)]
-row = 50
+row = 120
 openSet = []
 closedSet = []
 red = (255, 0, 0)
@@ -78,8 +82,8 @@ for i in range(cols):
 
 
 # Set start and end node
-start = grid[12][5]
-end = grid[3][6]
+start = grid[LIST.start % 160][math.floor(LIST.start / 160)]
+end = grid[LIST.goal % 160][math.floor(LIST.goal / 160)]
 # SHOW RECT
 for i in range(cols):
     for j in range(row):
