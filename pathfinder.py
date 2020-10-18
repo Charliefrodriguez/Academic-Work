@@ -19,7 +19,7 @@ except:
     from tkinter import messagebox
     import os
 
-screen = pygame.display.set_mode((1600, 1600))
+screen = pygame.display.set_mode((1600, 1000))
 
 class spot:
     def __init__(self, x, y):
@@ -69,7 +69,7 @@ green = (0, 255, 0)
 blue = (0, 0, 255)
 grey = (220, 220, 220)
 w = 1600 / cols
-h = 1600 / row
+h = 1000 / row
 cameFrom = []
 
 # create 2d array
@@ -88,11 +88,10 @@ end = grid[LIST.goal % 160][math.floor(LIST.goal / 160)]
 # SHOW RECT
 for i in range(cols):
     for j in range(row):
-        grid[i][j].show((255, 255, 255), 1)
         if LIST.lst[LIST.inv_position(j, i)].head.terrain == '1':
             grid[i][j].show(green, 1)
         if LIST.lst[LIST.inv_position(j, i)].head.terrain == '2':
-            grid[i][j].show((0, 200, 0), 1)
+            grid[i][j].show((0, 127, 0), 1)
             grid[i][j].value = 2
         if LIST.lst[LIST.inv_position(j, i)].head.terrain == '0':
             grid[i][j].show((0, 0, 0), 1)
@@ -100,7 +99,7 @@ for i in range(cols):
         if LIST.lst[LIST.inv_position(j, i)].head.terrain == 'a':
             grid[i][j].show(blue, 1)    
         if LIST.lst[LIST.inv_position(j, i)].head.terrain == 'b':
-            grid[i][j].show((0, 0, 200), 1)
+            grid[i][j].show((0, 0, 127), 1)
             grid[i][j].value = 2
         if LIST.lst[LIST.inv_position(j, i)].head.terrain == 's':
             grid[i][j].show((255, 8, 127), 1)
