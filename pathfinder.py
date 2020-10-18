@@ -58,6 +58,7 @@ class spot:
 LIST = GameBoard.AdjList(160, 120)
 x = GameBoard.fileIO(LIST)
 x.readMap("testMap.txt")
+LIST = x.AdjList
 
 cols = 160
 grid = [0 for i in range(cols)]
@@ -91,7 +92,7 @@ for i in range(cols):
         if LIST.lst[LIST.inv_position(j, i)].head.terrain == '1':
             grid[i][j].show(green, 0)
         if LIST.lst[LIST.inv_position(j, i)].head.terrain == '2':
-            grid[i][j].show((0, 127, 0), 0)
+            grid[i][j].show((0, 150, 0), 0)
             grid[i][j].value = 2
         if LIST.lst[LIST.inv_position(j, i)].head.terrain == '0':
             grid[i][j].show((0, 0, 0), 0)
@@ -99,7 +100,7 @@ for i in range(cols):
         if LIST.lst[LIST.inv_position(j, i)].head.terrain == 'a':
             grid[i][j].show(blue, 0)    
         if LIST.lst[LIST.inv_position(j, i)].head.terrain == 'b':
-            grid[i][j].show((0, 0, 127), 0)
+            grid[i][j].show((0, 0, 150), 0)
             grid[i][j].value = 2
         if LIST.lst[LIST.inv_position(j, i)].head.terrain == 's':
             grid[i][j].show((255, 8, 127), 0)
