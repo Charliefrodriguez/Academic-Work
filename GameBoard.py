@@ -623,32 +623,12 @@ LIST = AdjList(160, 120)
 
 #LIST.lst[0].print_list()
 
-<<<<<<< HEAD
 LIST.edge_set()
 LIST.initialize_h()
 LIST.edge_hset() 
 LIST.set_impass()
 LIST.set_startgoal()
 LIST.set_boundary() 
-=======
-#LIST.edge_set()
-
-
-#LIST.edge_hset() 
-#LIST.set_impass()
-#LIST.set_startgoal()
-#LIST.set_boundary() 
-
-
-
-#LIST.initialize_h()
-#LIST.edge_hset() 
-#LIST.set_impass()
-#LIST.set_startgoal()
-#LIST.set_boundary() 
-
-LIST.print_adjl()
->>>>>>> e0243913536a97801a4ecbdeb8ed144c4a5fdc51
 
 #print(LL.head.after)
 #print(LIST.screen([[-1, 159], [0, 160], [0, 158], [-1, 160], [-1, 158]]))
