@@ -62,6 +62,10 @@ LIST.edge_hset()
 LIST.set_impass()
 LIST.set_startgoal()
 LIST.set_boundary() 
+x = GameBoard.fileIO(LIST)
+x.writeMap("testMap.txt")
+x.readMap("testMap.txt")
+LIST = x.AdjList
 
 cols = 160
 grid = [0 for i in range(cols)]
